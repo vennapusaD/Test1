@@ -14,18 +14,22 @@ jobs:
         image: sonarqube:latest
         ports:
           - 9000:9000
-        options: > 
-          --health-cmd='curl -s http://localhost:9000/api/system/health | grep -q "GREEN"' 
-          --health-interval=10s 
-          --health-timeout=5s 
-          --health-retries=10
     steps:
       - name: Start SonarQube
         run: |
-          while ! nc -z localhost 9000; do
-            echo "Waiting for SonarQube..."
-            sleep 3
-          done
+         for i in {1..20}; do
+           if nc -zv localhost 9000; then
+             echo "SonarQube is up!"
+             break
+           else
+             echo "Waiting for SonarQube..."
+             sleep 10
+           fi
+         done
+         # while ! nc -z localhost 9000; do
+            # echo "Waiting for SonarQube..."
+          # sleep 3
+        # done
 
       - name: Checkout code
         uses: actions/checkout@v2
