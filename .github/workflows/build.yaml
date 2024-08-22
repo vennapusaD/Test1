@@ -2,21 +2,35 @@ name: Build a WAR file using Maven
 on:
   push:
     branches: [ "master" ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    
     - name: Set up JDK 11
       uses: actions/setup-java@v2
       with:
         distribution: 'adopt'
         java-version: '11'
+    
     - name: Build with Maven
       run: mvn clean install -f MyWebApp/pom.xml
-    - name: print workspace dir
-      run: echo "$GITHUB_WORKSPACE" 
-    - name: print workspace dir1
-      run: echo "${{ github.workspace }}"
 
-            
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      with:
+        projectBaseDir: .
+        args: >
+          -Dsonar.organization=my-org
+          -Dsonar.projectKey=Test1
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+    - name: Print workspace directory
+      run: echo "$GITHUB_WORKSPACE"
+
+    - name: Print workspace directory (alternative)
+      run: echo "${{ github.workspace }}"
