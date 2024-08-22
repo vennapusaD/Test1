@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'  # Adjust to your project's JDK version
-          distribution: 'adopt-openjdk'  # Specify the JDK distribution
+          distribution: 'temurin'  # Use the 'temurin' distribution
 
       - name: Install SonarQube Scanner
         run: |
