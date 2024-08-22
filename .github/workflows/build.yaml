@@ -3,10 +3,10 @@ name: SonarQube Analysis
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   sonar:
@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'  # Adjust to your project's JDK version
+          distribution: 'adopt-openjdk'  # Specify the JDK distribution
 
       - name: Install SonarQube Scanner
         run: |
