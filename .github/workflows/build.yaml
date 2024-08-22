@@ -38,7 +38,7 @@ jobs:
 
       - name: Run SonarQube Scan
         env:
-          SONAR_HOST_URL: 'http://<ngrok-public-url>'  # Replace with your public SonarQube URL
+          SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL}} # Replace with your actual ngrok public URL
           SONAR_LOGIN: ${{ secrets.SONAR_TOKEN }}  # Token stored in GitHub secrets
         run: |
           sonar-scanner \
